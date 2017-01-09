@@ -1,0 +1,31 @@
+{
+    "name": "fngLed", 
+    "repository": {
+        "url": "https://github.com/fngstudios/fngLed.git", 
+        "type": "git"
+    }, 
+    "platforms": [
+        "*"
+    ], 
+    "frameworks": [
+        "arduino"
+    ], 
+    "version": "0.1", 
+    "authors": [
+        {
+            "maintainer": false, 
+            "name": "fngStudios", 
+            "url": "https://github.com/fngstudios", 
+            "email": null
+        }
+    ], 
+    "keywords": [
+        "RGB", 
+        "Led",
+		"Ilumination",
+		"websockets",
+		"websockets led"
+    ],  
+    "description": "Interfaces with rgb led, prepares data for ws binary transmit and has mood,static color, etc led modes.",
+	"examples": "examples/*/*.ino"
+}
