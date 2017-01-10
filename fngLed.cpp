@@ -41,7 +41,7 @@ void fngLed::turnOff(){
 
 void fngLed::setColor(uint8_t Red,uint8_t Green,uint8_t Blue){
   this->_CurrentRed = Red;
-  this->_CurrentGree = Green;
+  this->_CurrentGreen = Green;
   this->_CurrentBlue = Blue;
 }
 
