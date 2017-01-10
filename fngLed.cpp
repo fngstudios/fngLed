@@ -215,7 +215,7 @@ void fngLed::doFromTo(){
     greenway = -1;
   }
 
-  if (this->_ToBlue > this->_FromBlue{
+  if (this->_ToBlue > this->_FromBlue){
     blueway = 1;
   }else {
     blueway = -1;
