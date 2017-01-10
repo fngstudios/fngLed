@@ -27,6 +27,7 @@ public:
   void setColor(uint8_t Red,uint8_t Green,uint8_t Blue);
   void doOneOnOne();
   void doMood();
+  void doFromTo();
   uint8_t getStatus();
   uint8_t getMode();
   uint8_t getSpeed();

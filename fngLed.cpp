@@ -68,7 +68,7 @@ void fngLed::begin(unsigned char RedPin,unsigned char GreenPin,unsigned char Blu
     this->_ToGreen = data[10];
     this->_ToBlue = data[11];
     this->_MoodMode = data[12];
-    
+
   }
 
   void fngLed::doOneOnOne(){
@@ -119,6 +119,11 @@ void fngLed::begin(unsigned char RedPin,unsigned char GreenPin,unsigned char Blu
                         this->doMood();
                       }
                       break;
+      case 3:         if (this->canChange()){
+                        this->setChangingTime(0);
+                        this->doFromTo();
+                      }
+                      break;
     }
   }else if (!this->getStatus()){
     this->turnOff();
@@ -145,9 +150,54 @@ uint8_t fngLed::canChange(){
 
 void fngLed::doMood(){
 
-  static char red = 0;
-  static char green = 0;
-  static char blue = 0;
+  static unsigned char red = 0;
+  static unsigned char green = 0;
+  static unsigned char blue = 0;
+  static char estado = 0;
+  static char mode = 0;
+
+
+  switch(estado){
+
+    case 0:     red++;
+                if (red == 255){
+                  estado++;
+                }
+                break;
+    case 2:     red--;
+                if (red == 0){
+                  estado++;
+                }
+                break;
+    case 1:     green++;
+                if (green == 255){
+                  estado++;
+                }
+                break;
+    case 4:     green--;
+                if (green == 0){
+                  estado++;
+                }
+                break;
+    case 3:     blue++;
+                if (blue == 255){
+                  estado++;
+                }
+                break;
+    case 5:     blue--;
+                if (blue == 0){
+                  estado = 0;
+                }
+                break;
+  }
+  this->setColor(red,green,blue);
+  this->shine();
+}
+void fngLed::doFromTo(){
+
+  static unsigned char red = 0;
+  static unsigned char green = 0;
+  static unsigned char blue = 0;
   static char estado = 0;
   static char mode = 0;
 
