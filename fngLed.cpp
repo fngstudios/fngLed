@@ -202,6 +202,10 @@ void fngLed::doFromTo(){
   static char redway =1;
   static char blueway =1;
   static char greenway =1;
+  static char idared = 1;
+  static char idagreen = 1;
+  static char idablue = 1;
+
 
   if (this->_ToRed > this->_FromRed){
     redway = 1;
@@ -222,35 +226,44 @@ void fngLed::doFromTo(){
   }
 
 
-  if (ida){
+  if (idared == 1){
     if (red < this->_ToRed ){
       red += redway;
+      if (red == this->_ToRed){idared = -1;}
     }
-    if (green < this->_ToGreen ){
-      green += greenway;
-    }
-    if (blue < this->_ToBlue ){
-      blue += blueway;
-    }
-    if (red == this->_ToRed && green == this->_ToGreen && blue == this->_ToBlue){
-      ida = 0;
-    }
-  }else{
+    }else{
     if (red > this->_FromRed ){
       red-=redway;
+      if (red == this->_FromRed){idared = 1;}
+      }
+  }
+
+  if (idagreen == 1){
+    if (green < this->_ToGreen ){
+      green += greenway;
+      if (green == this->_ToGreen){idagreen = -1;}
     }
+    }else{
     if (green > this->_FromGreen ){
       green-=greenway;
+      if (green == this->_FromGreen){idagreen = 1;}
+      }
+  }
+
+  if (idablue == 1){
+    if (blue < this->_ToBlue ){
+      blue += blueway;
+      if (blue == this->_ToBlue){idablue = -1;}
     }
+    }else{
     if (blue > this->_FromBlue ){
       blue-=blueway;
-    }
-    if (red == this->_FromRed && green == this->_FromGreen && blue == this->_FromBlue){
-      ida = 1;
-    }
+      if (blue == this->_FromBlue){idablue = 1;}
+      }
   }
 
 
   this->setColor(red,green,blue);
   this->shine();
+
 }
