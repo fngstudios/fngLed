@@ -39,7 +39,7 @@ public:
   unsigned char _ToRed;
   unsigned char _ToGreen;
   unsigned char _ToBlue;
-  char wwsData[_wwsData_L] = {0,0,0,0,0,0,0,0,0,0,0,0,0};
+  char wwsData[13] = {0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 private:
   unsigned char _wwsData_L = 13;
