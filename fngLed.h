@@ -3,10 +3,10 @@
    fng Studios 2017
    v 0.1
    Library encargada de definir y controlar un led rgb.
-   Recibe un string de 13 bytes con los parametros del led y 
+   Recibe un string de 13 bytes con los parametros del led y
    gestiona el encendido segun modo, velocidad, status y colores.
-   
-   
+
+
  **************************************************************/
 
 #ifndef fngLed_h
@@ -19,7 +19,12 @@ public:
   void update(uint8_t *data);
   void begin(unsigned char RedPin,unsigned char GreenPin,unsigned char BluePin);
   void shine();
+  void turnOff();
+  void setChangingTime(unsigned char Type);
+  uint8_t canChange();
+  void setColor(uint8_t Red,uint8_t Green,uint8_t Blue);
   void doOneOnOne();
+  void doMood();
   uint8_t getStatus();
   uint8_t getMode();
   uint8_t getSpeed();

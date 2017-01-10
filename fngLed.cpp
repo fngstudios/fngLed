@@ -3,90 +3,97 @@
    fng Studios 2017
    v 0.1
    Library encargada de definir y controlar un led rgb.
-   Recibe un string de 13 bytes con los parametros del led y 
+   Recibe un string de 13 bytes con los parametros del led y
    gestiona el encendido segun modo, velocidad, status y colores.
-   
-   
- **************************************************************/
+
+
+***************************************************************/
 
 #include "fngLed.h"
 
 uint8_t fngLed::getStatus(){
-  return _Status;
+  return this->_Status;
 }
+
 uint8_t fngLed::getMode(){
-  return _Mode;
+  return this->_Mode;
 }
+
 uint8_t fngLed::getSpeed(){
-  return _Speed;
+  return this->_Speed;
 }
+
 uint8_t fngLed::getMoodMode(){
-  return _MoodMode;
+  return this->_MoodMode;
 }
 
 void fngLed::shine(){
-  analogWrite(_RedPin,_CurrentRed);
-  analogWrite(_GreenPin,_CurrentGreen);
-  analogWrite(_BluePin,_CurrentBlue);
+  analogWrite(this->_RedPin,this->_CurrentRed);
+  analogWrite(this->_GreenPin,this->_CurrentGreen);
+  analogWrite(this->_BluePin,this->_CurrentBlue);
+}
+
+  void turnOff(){
+    analogWrite(this->_RedPin,0);
+    analogWrite(this->_GreenPin,0);
+    analogWrite(this->_BluePin,0);
+  }
+
+void fngLed::setColor(uint8_t Red,uint8_t Green,uint8_t Blue){
+  this->_CurrentRed = Red;
+  this->_CurrentGree = Green;
+  this->_CurrentBlue = Blue;
 }
 
 void fngLed::begin(unsigned char RedPin,unsigned char GreenPin,unsigned char BluePin){
-  _RedPin=RedPin;
-  _GreenPin=GreenPin;
-  _BluePin=BluePin;
-  pinMode(_RedPin,OUTPUT);
-  pinMode(_GreenPin,OUTPUT);
-  pinMode(_BluePin,OUTPUT);
+  this->_RedPin=RedPin;
+  this->_GreenPin=GreenPin;
+  this->_BluePin=BluePin;
+  pinMode(this->_RedPin,OUTPUT);
+  pinMode(this->_GreenPin,OUTPUT);
+  pinMode(this->_BluePin,OUTPUT);
 }
 
   void fngLed::update(uint8_t *data){
-    _Status  = data[0];
-    _Mode    = data[1];
-    _Speed   = data[2];
-    _CurrentRed =  data[3];
-    _CurrentGreen = data[4];
-    _CurrentBlue  = data[5];
-    _FromRed = data[6];
-    _FromGreen = data[7];
-    _FromBlue = data[8];
-    _ToRed = data[9];
-    _ToGreen = data[10];
-    _ToBlue = data[11];
-    _MoodMode = data[12];
+    this->_Status  = data[0];
+    this->_Mode    = data[1];
+    this->_Speed   = data[2];
+    this->_CurrentRed =  data[3];
+    this->_CurrentGreen = data[4];
+    this->_CurrentBlue  = data[5];
+    this->_FromRed = data[6];
+    this->_FromGreen = data[7];
+    this->_FromBlue = data[8];
+    this->_ToRed = data[9];
+    this->_ToGreen = data[10];
+    this->_ToBlue = data[11];
+    this->_MoodMode = data[12];
   }
 
   void fngLed::doOneOnOne(){
     static char estado = 0;
     switch (estado){
-      case 0:       analogWrite(LED_RED,255);
-                    analogWrite(LED_GREEN,0);
-                    analogWrite(LED_BLUE,0);
+      case 0:       this->setColor(255,0,0);
+                    this->shine();
                     break;
-      case 1:       analogWrite(LED_RED,255);
-                    analogWrite(LED_GREEN,255);
-                    analogWrite(LED_BLUE,0);
+      case 1:       this->setColor(255,255,0);
+                    this->shine();
                     break;
-      case 2:       analogWrite(LED_RED,0);
-                    analogWrite(LED_GREEN,255);
-                    analogWrite(LED_BLUE,0);
+      case 2:       this->setColor(0,255,0);
+                    this->shine();
                     break;
-      case 3:       analogWrite(LED_RED,0);
-                    analogWrite(LED_GREEN,255);
-                    analogWrite(LED_BLUE,255);
+      case 3:       this->setColor(0,255,255);
+                    this->shine();
                     break;
-      case 4:       analogWrite(LED_RED,0);
-                    analogWrite(LED_GREEN,0);
-                    analogWrite(LED_BLUE,255);
+      case 4:       this->setColor(0,0,255);
+                    this->shine();
                     break;
-      case 5:       analogWrite(LED_RED,255);
-                    analogWrite(LED_GREEN,0);
-                    analogWrite(LED_BLUE,255);
+      case 5:       this->setColor(255,0,255);
+                    this->shine();
                     break;
-      case 6:       analogWrite(LED_RED,255);
-                    analogWrite(LED_GREEN,255);
-                    analogWrite(LED_BLUE,255);
+      case 6:       this->setColor(255,255,255);
+                    this->shine();
                     break;
-
     }
     estado ++;
     if (estado>6){
@@ -94,38 +101,40 @@ void fngLed::begin(unsigned char RedPin,unsigned char GreenPin,unsigned char Blu
     }
   }
 
-  if (Led.getStatus()){
-    switch (Led.getMode()){
+  void fngLed::work(){
 
-      case 0:         Led.shine();
+  if (this->getStatus()){
+    switch (this->getMode()){
+
+      case 0:         this->shine();
                       break;
-      case 1:         if (canChange()){
-                        setChangingTime(1);
-                        Led.doOneOnOne();
+      case 1:         if (this->canChange()){
+                        this->setChangingTime(1);
+                        this->doOneOnOne();
                       }
                       break;
-      case 2:         if (canChange()){
-                        setChangingTime(0);
-                        doMood();
+      case 2:         if (this->canChange()){
+                        this->setChangingTime(0);
+                        this->doMood();
                       }
                       break;
     }
-  }else if (!Led.getStatus()){
-    analogWrite(LED_RED,0);
-    analogWrite(LED_GREEN,0);
-    analogWrite(LED_BLUE,0);
-  }
- 
- 
- void setChangingTime(unsigned char Type){
-  if (Type==1){
-    changingTime = millis()+(255-Led.getSpeed())*3;
-  }else{
-    changingTime = millis()+(255-Led.getSpeed())/8;
+  }else if (!this->getStatus()){
+    this->turnOff();
   }
 }
-unsigned char canChange(){
-  if (millis()>changingTime){
+
+ void fngLed::setChangingTime(unsigned char Type){
+  if (Type==1){
+    this->_ChangingTime = millis()+(255-this->getSpeed())*3;
+  }else{
+    this->_ChangingTime = millis()+(255-this->getSpeed())/8;
+  }
+}
+
+
+uint8_t fngLed::canChange(){
+  if (millis()>this->_ChangingTime){
     return 1;
   }else{
     return 0;
@@ -133,7 +142,7 @@ unsigned char canChange(){
 }
 
 
-void doMood(){
+void fngLed::doMood(){
 
   static char red = 0;
   static char green = 0;
@@ -145,40 +154,36 @@ void doMood(){
   switch(estado){
 
     case 0:     red++;
-                analogWrite(LED_RED,red);
-                if (red == wwsData[TO_RED]){
+                if (red >= this->_ToRed){
                   estado++;
                 }
                 break;
     case 2:     red--;
-                analogWrite(LED_RED,red);
-                if (red == wwsData[FROM_RED]){
+                if (red <= this->_FromRed){
                   estado++;
                 }
                 break;
     case 1:     green++;
-                analogWrite(LED_GREEN,green);
-                if (green == 255){
+                if (green >= this->_ToGreen){
                   estado++;
                 }
                 break;
     case 4:     green--;
-                analogWrite(LED_GREEN,green);
-                if (green == 0){
+                if (green <= this->_ToGreen){
                   estado++;
                 }
                 break;
     case 3:     blue++;
-                analogWrite(LED_BLUE,blue);
-                if (blue == 255){
+                if (blue >= this->_ToBlue){
                   estado++;
                 }
                 break;
     case 5:     blue--;
-                analogWrite(LED_BLUE,blue);
-                if (blue == 0){
+                if (blue <= this->_ToBlue){
                   estado = 0;
                 }
                 break;
   }
+  this->setColor(red,green,blue);
+  this->shine();
 }
