@@ -198,43 +198,37 @@ void fngLed::doFromTo(){
   static unsigned char red = 0;
   static unsigned char green = 0;
   static unsigned char blue = 0;
-  static char estado = 0;
-  static char mode = 0;
+  static unsigned char ida = 1;
 
-
-  switch(estado){
-
-    case 0:     red++;
-                if (red >= this->_ToRed){
-                  estado++;
-                }
-                break;
-    case 1:     red--;
-                if (red <= this->_FromRed){
-                  estado++;
-                }
-                break;
-    case 2:     green++;
-                if (green >= this->_ToGreen){
-                  estado++;
-                }
-                break;
-    case 3:     green--;
-                if (green <= this->_ToGreen){
-                  estado++;
-                }
-                break;
-    case 4:     blue++;
-                if (blue >= this->_ToBlue){
-                  estado++;
-                }
-                break;
-    case 5:     blue--;
-                if (blue <= this->_ToBlue){
-                  estado = 0;
-                }
-                break;
+  if (ida){
+    if (red < this->_ToRed ){
+      red++;
+    }
+    if (green < this->_ToGreen ){
+      green++;
+    }
+    if (blue < this->_ToBlue ){
+      blue++;
+    }
+    if (red == this->_ToRed && green == this->_ToGreen && blue == this->_ToBlue){
+      ida = 0;
+    }
+  }else{
+    if (red > this->_FromRed ){
+      red--;
+    }
+    if (green > this->_FromGreen ){
+      green--;
+    }
+    if (blue > this->_FromBlue ){
+      blue--;
+    }
+    if (red == this->_FromRed && green == this->_FromGreen && blue == this->_FromBlue){
+      ida = 1;
+    }
   }
+
+
   this->setColor(red,green,blue);
   this->shine();
 }
