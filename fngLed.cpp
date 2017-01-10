@@ -68,6 +68,7 @@ void fngLed::begin(unsigned char RedPin,unsigned char GreenPin,unsigned char Blu
     this->_ToGreen = data[10];
     this->_ToBlue = data[11];
     this->_MoodMode = data[12];
+    
   }
 
   void fngLed::doOneOnOne(){
