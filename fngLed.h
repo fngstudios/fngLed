@@ -12,6 +12,8 @@
 #ifndef fngLed_h
 #define fngLed_h
 
+#include <Arduino.h>
+
 class fngLed {
 
 public:
