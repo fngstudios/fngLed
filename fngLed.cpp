@@ -199,29 +199,51 @@ void fngLed::doFromTo(){
   static unsigned char green = 0;
   static unsigned char blue = 0;
   static unsigned char ida = 1;
+  static char redway =1;
+  static char blueway =1;
+  static char greenway =1;
+
+  if (this->_ToRed > this->_FromRed){
+    redway = 1;
+  }else {
+    redway = -1;
+  }
+
+  if (this->_ToGreen > this->_FromGreen){
+    greenway = 1;
+  }else {
+    greenway = -1;
+  }
+
+  if (this->_ToBlue > this->_FromBlue{
+    blueway = 1;
+  }else {
+    blueway = -1;
+  }
+
 
   if (ida){
     if (red < this->_ToRed ){
-      red++;
+      red += redway;
     }
     if (green < this->_ToGreen ){
-      green++;
+      green += greenway;
     }
     if (blue < this->_ToBlue ){
-      blue++;
+      blue += blueway;
     }
     if (red == this->_ToRed && green == this->_ToGreen && blue == this->_ToBlue){
       ida = 0;
     }
   }else{
     if (red > this->_FromRed ){
-      red--;
+      red-=redway;
     }
     if (green > this->_FromGreen ){
-      green--;
+      green-=greenway;
     }
     if (blue > this->_FromBlue ){
-      blue--;
+      blue-=blueway;
     }
     if (red == this->_FromRed && green == this->_FromGreen && blue == this->_FromBlue){
       ida = 1;
