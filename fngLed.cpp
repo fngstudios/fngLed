@@ -33,11 +33,11 @@ void fngLed::shine(){
   analogWrite(this->_BluePin,this->_CurrentBlue);
 }
 
-  void turnOff(){
-    analogWrite(this->_RedPin,0);
-    analogWrite(this->_GreenPin,0);
-    analogWrite(this->_BluePin,0);
-  }
+void fngLed::turnOff(){
+  analogWrite(this->_RedPin,0);
+  analogWrite(this->_GreenPin,0);
+  analogWrite(this->_BluePin,0);
+}
 
 void fngLed::setColor(uint8_t Red,uint8_t Green,uint8_t Blue){
   this->_CurrentRed = Red;
