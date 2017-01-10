@@ -209,22 +209,22 @@ void fngLed::doFromTo(){
                   estado++;
                 }
                 break;
-    case 2:     red--;
+    case 1:     red--;
                 if (red <= this->_FromRed){
                   estado++;
                 }
                 break;
-    case 1:     green++;
+    case 2:     green++;
                 if (green >= this->_ToGreen){
                   estado++;
                 }
                 break;
-    case 4:     green--;
+    case 3:     green--;
                 if (green <= this->_ToGreen){
                   estado++;
                 }
                 break;
-    case 3:     blue++;
+    case 4:     blue++;
                 if (blue >= this->_ToBlue){
                   estado++;
                 }
